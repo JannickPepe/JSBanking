@@ -1,22 +1,16 @@
 "use server";
 
-import {
-  ACHClass,
-  CountryCode,
-  TransferAuthorizationCreateRequest,
-  TransferCreateRequest,
-  TransferNetwork,
-  TransferType,
-} from "plaid";
-
+import {ACHClass, CountryCode, TransferAuthorizationCreateRequest, TransferCreateRequest, TransferNetwork, TransferType, } from "plaid";
 import { plaidClient } from "../plaid";
 import { parseStringify } from "../utils";
-
 import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
 
+
+
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
+
   try {
     // get banks from db
     const banks = await getBanks({ userId });
@@ -45,7 +39,7 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
           type: accountData.type as string,
           subtype: accountData.subtype! as string,
           appwriteItemId: bank.$id,
-          sharaebleId: bank.shareableId,
+          shareableId: bank.shareableId,
         };
 
         return account;
@@ -65,6 +59,7 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
 
 // Get one bank account
 export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
+
   try {
     // get bank from db
     const bank = await getBank({ documentId: appwriteItemId });
@@ -129,9 +124,8 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
 };
 
 // Get bank info
-export const getInstitution = async ({
-  institutionId,
-}: getInstitutionProps) => {
+export const getInstitution = async ({institutionId, }: getInstitutionProps) => {
+
   try {
     const institutionResponse = await plaidClient.institutionsGetById({
       institution_id: institutionId,
@@ -147,9 +141,8 @@ export const getInstitution = async ({
 };
 
 // Get transactions
-export const getTransactions = async ({
-  accessToken,
-}: getTransactionsProps) => {
+export const getTransactions = async ({accessToken, }: getTransactionsProps) => {
+
   let hasMore = true;
   let transactions: any = [];
 
